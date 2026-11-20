@@ -26,15 +26,17 @@ En la versión 2.0 el login es con Firebase Auth: el usuario se resuelve a un co
 
 Por usuario: XP total, racha diaria, lecciones completadas por ruta y nivel, logros desbloqueados (de 13) y nombre para certificados. Las lecciones se desbloquean paso a paso en un camino por ruta.
 
+Desde la versión 2.2 cada lección tiene un id estable (`<ruta>-<nivel><nn>`, por ejemplo `git-b01`, `sql-e15`) y el avance se guarda por id, no por posición. Al cargar, el avance guardado en 2.0/2.1 (claves numéricas 0-6) se migra solo a su id, así no se pierde ni se marca en la lección equivocada cuando crecen los niveles.
+
 En la versión 1.0 el progreso vive en la base del artefacto web (app web) o en localStorage (APK), sin sincronizar entre sí. En la versión 2.0 vive en Firestore (`progress/{uid}`), compartido por la app web y la APK; la APK guarda además una copia local y sincroniza en vivo con `onSnapshot` al volver la conexión.
 
 ## ¿Qué rutas y niveles hay?
 
-11 rutas: Git, GitHub, Slack, Terminal, VS Code, Docker, Jira, CI/CD, Kubernetes, SQL (MySQL/MariaDB) y Kali Linux. Cada una con niveles Principiante, Intermedio y Avanzado. El contenido por nivel está detallado para Git, GitHub, Slack, Terminal, VS Code, SQL y Kali Linux; el de Docker, Jira, CI/CD y Kubernetes está pendiente de definir (ver `docs/README.md`).
+11 rutas: Git, GitHub, Slack, Terminal, VS Code, Docker, Jira, CI/CD, Kubernetes, SQL (MySQL/MariaDB) y Kali Linux. Cada una con 4 niveles (Básico, Intermedio, Avanzado y Experto) de 15 lecciones cada uno: 60 lecciones por ruta, 660 en total, cada una con 5 ejercicios. El contenido por nivel está detallado para las 11 rutas (desde la 2.2, que completó Docker, Jira, CI/CD y Kubernetes y agregó el nivel Experto).
 
 ## ¿Hay APK?
 
-Sí. La APK 1.0 se entregó el 2026-11-19 (paquete `mx.gerardo.devtools`, `versionCode` 1, firmada con keystore permanente, md5 `417ceded2d75a74095756d9d5708f7a0`). Es una reconstrucción local aparte, no un envoltorio del artefacto web. La APK 2.0 se compiló el 2026-11-20 (mismo `appId` y keystore, `versionCode` 2, 3,648,739 bytes, md5 `86c0bd944a0c6c25aad854707c354855`, firma v2 verificada; se instala encima de la 1.0) y ya lleva la nube: proyecto `devtools-aprender`, configuración real y sincronización en vivo. La APK 2.1 se compiló el mismo 2026-11-20 (mismo `appId` y keystore, `versionCode` 3, 3,657,538 bytes, md5 `dde17545926b252c774260f41771630d`, firma v2 verificada; se instala encima de la 2.0) y agrega las rutas SQL (MySQL/MariaDB) y Kali Linux, 7 lecciones cada una, con el mismo contenido que la app web. Pendiente de pruebas en un teléfono real. La app web 1.0 necesita internet porque el login y el progreso viven en el servidor; la APK 2.0 funciona offline y sincroniza al volver la conexión.
+Sí. La APK 1.0 se entregó el 2026-11-19 (paquete `mx.gerardo.devtools`, `versionCode` 1, firmada con keystore permanente, md5 `417ceded2d75a74095756d9d5708f7a0`). Es una reconstrucción local aparte, no un envoltorio del artefacto web. La APK 2.0 se compiló el 2026-11-20 (mismo `appId` y keystore, `versionCode` 2, 3,648,739 bytes, md5 `86c0bd944a0c6c25aad854707c354855`, firma v2 verificada; se instala encima de la 1.0) y ya lleva la nube: proyecto `devtools-aprender`, configuración real y sincronización en vivo. La APK 2.1 se compiló el mismo 2026-11-20 (mismo `appId` y keystore, `versionCode` 3, 3,657,538 bytes, md5 `dde17545926b252c774260f41771630d`, firma v2 verificada; se instala encima de la 2.0) y agrega las rutas SQL (MySQL/MariaDB) y Kali Linux, 7 lecciones cada una, con el mismo contenido que la app web. La APK 2.2 se compiló el mismo 2026-11-20 (mismo `appId` y keystore, `versionCode` 4, 3,958,554 bytes, md5 `95e2d78710f07df4ec8a5515100ed850`, firma v2 verificada; se instala encima de la 2.1): 60 lecciones por ruta (15 por nivel, con el nivel nuevo Experto), el nombre de la ruta ya legible en modo claro y oscuro, y el avance guardado por id de lección con migración del avance viejo. Pendiente de pruebas en un teléfono real. La app web 1.0 necesita internet porque el login y el progreso viven en el servidor; la APK 2.0 funciona offline y sincroniza al volver la conexión.
 
 ## ¿Qué se le puede preguntar a un dev que revise la app?
 
@@ -47,5 +49,5 @@ Sí. La APK 1.0 se entregó el 2026-11-19 (paquete `mx.gerardo.devtools`, `versi
 ## Enlaces
 
 - App web: artefacto `aprender-herramientas-de-desarrollador` en Muse.
-- Repo (documentación): https://github.com/gcruzhz/aprender-herramientas-desarrollador (creado por Gerardo el 2026-11-19; docs subidos el 2026-11-20, commit `52a4ca3b`).
+- Repo (documentación): https://github.com/gcruzhz/aprender-herramientas-desarrollador (creado por Gerardo el 2026-11-19; docs subidos el 2026-11-20, commit `a8afd41b` que cubre la 2.0 y la 2.1; la actualización con la 2.2 aún no se sube).
 - Proyecto Firebase 2.0: `devtools-aprender` (creado el 2026-11-20; la consola es https://console.firebase.google.com/project/devtools-aprender). Auth por correo/contraseña activado y reglas de Firestore publicadas; app web registrada (App ID `1:977997910205:web:6844e62b522ba79f9da7d4`).
